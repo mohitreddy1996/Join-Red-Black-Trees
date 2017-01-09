@@ -1,10 +1,10 @@
 /*
-*  1) A node is either red or black
-*  2) The root is black
-*  3) All leaves (NULL) are black
-*  4) Both children of every red node are black
-*  5) Every simparentle parentath from root to leaves contains the same number
-*     of black nodes. 
+* 1) A node is either red or black
+* 2) The root is black
+* 3) All leaves (NULL) are black
+* 4) Both children of every red node are black
+* 5) Every simparentle parentath from root to leaves contains the same number
+*    of black nodes. 
 */
 
 #include <stdio.h>
@@ -12,18 +12,17 @@
 #define RED		1
 #define BLACK	2
 
-struct node {
+struct rb_node {
 	int key;
-	struct node *left, *right, *p;
+	struct rb_node *left, *right, *parent;
 	int color;
 };
 
 
-typedef struct node *NODEPTR;
-struct node NIL;
-NODEPTR NILPTR = &NIL;
+struct rb_node *NIL;
+struct rb_node *NILPTR = (struct rb_node *) &NIL;
 
-void inorder(NODEPTR x) {
+void inorder(struct rb_node *x) {
 	if (x != NILPTR) {
 		inorder(x->left);
 		printf("%d -- %d\n", x->key, x->color);
@@ -31,7 +30,7 @@ void inorder(NODEPTR x) {
 	}
 }
 
-NODEPTR search(NODEPTR root, int k) {
+struct rb_node *search(struct rb_node *root, int k) {
     if (root == NULL)
         return root;
 	if (root == NILPTR || root->key == k)
@@ -42,93 +41,86 @@ NODEPTR search(NODEPTR root, int k) {
 		return search(root->right, k);
 }
 
-NODEPTR minimum(NODEPTR root) {
-	while (root->left != NILPTR)
-		root = root->left;
-	return root;
-}
-
-
-void leftrotate(NODEPTR *treeroot, NODEPTR x) {
-	NODEPTR y = x->right;
+void leftrotate(struct rb_node **treeroot, struct rb_node *x) {
+	struct rb_node *y = x->right;
 	x->right = y->left;
 	if (y->left != NILPTR)
-		y->left->p = x;
-	y->p = x->p;
-	if (x->p == NILPTR)
+		y->left->parent = x;
+	y->parent = x->parent;
+	if (x->parent == NILPTR)
 		*treeroot = y;
-	else if (x->p->left == x)
-		x->p->left = y;
+	else if (x->parent->left == x)
+		x->parent->left = y;
 	else
-		x->p->right = y;
+		x->parent->right = y;
 	y->left = x;
-	x->p = y;
+	x->parent = y;
 }
 
-void rightrotate(NODEPTR *treeroot, NODEPTR y) {
-	NODEPTR x = y->left;
+void rightrotate(struct rb_node **treeroot, struct rb_node *y) {
+	struct rb_node *x = y->left;
 	y->left = x->right;
 	if (x->right != NILPTR)
-		x->right->p = y;
-	x->p = y->p;
-	if (y->p == NILPTR)
+		x->right->parent = y;
+	x->parent = y->parent;
+	if (y->parent == NILPTR)
 		*treeroot = x;
-	else if (y->p->left == y)
-		y->p->left = x;
+	else if (y->parent->left == y)
+		y->parent->left = x;
 	else
-		y->p->right = x;
+		y->parent->right = x;
 	x->right = y;
-	y->p = x;
+	y->parent = x;
 }
 
-void rbinsertfixup(NODEPTR *treeroot, NODEPTR z) {
-	while (z->p!= NILPTR && z->p->color == RED) {
-		if (z->p->p != NILPTR && z->p == z->p->p->left) {
-			NODEPTR y = z->p->p->right;
+void rbinsertfixup(struct rb_node **treeroot, struct rb_node *z) {
+	while (z->parent!= NILPTR && z->parent->color == RED) {
+		if (z->parent->parent != NILPTR && z->parent == z->parent->parent->left) {
+			struct rb_node *y = z->parent->parent->right;
 			if (y->color == RED) {
-				z->p->color = BLACK;
+				z->parent->color = BLACK;
 				y->color = BLACK;
-				z->p->p->color = RED;
-				z = z->p->p;
+				z->parent->parent->color = RED;
+				z = z->parent->parent;
 			}
 			else {
-				if (z == z->p->right) {
-					z = z->p;
+				if (z == z->parent->right) {
+					z = z->parent;
 					leftrotate(treeroot,z);
 				}
-				z->p->color = BLACK;
-				z->p->p->color = RED;
-				rightrotate(treeroot,z->p->p);
+				z->parent->color = BLACK;
+				z->parent->parent->color = RED;
+				rightrotate(treeroot,z->parent->parent);
 			}
 		}
-		else if(z->p->p != NILPTR){
-			NODEPTR y = z->p->p->left;
+		else if(z->parent->parent != NILPTR){
+			struct rb_node *y = z->parent->parent->left;
 			if (y->color == RED) {
-				z->p->color = BLACK;
+				z->parent->color = BLACK;
 				y->color = BLACK;
-				z->p->p->color = RED;
-				z = z->p->p;
+				z->parent->parent->color = RED;
+				z = z->parent->parent;
 			}
 			else {
-				if (z == z->p->left) {
-					z = z->p;
+				if (z == z->parent->left) {
+					z = z->parent;
 					rightrotate(treeroot,z);
 				}
-				z->p->color = BLACK;
-				z->p->p->color = RED;
-				leftrotate(treeroot,z->p->p);
+				z->parent->color = BLACK;
+				z->parent->parent->color = RED;
+				leftrotate(treeroot,z->parent->parent);
 			}
 		}
 	}
 	(*treeroot)->color = BLACK;
 }
 
-void rbinsert(NODEPTR *treeroot, int z) {
+void rbinsert(struct rb_node **treeroot, int z) {
 	printf("Entering rbinsert\n");
-	NODEPTR Z = (NODEPTR) malloc(sizeof(struct node));
+	struct rb_node *Z = (struct rb_node *) malloc(sizeof(struct rb_node));
 	Z->key = z;
-	NODEPTR y = NILPTR;
-	NODEPTR x = *treeroot;
+	struct rb_node *y = NILPTR;
+	struct rb_node *x = *treeroot;
 	printf("Searching for correct insertion position\n");
 	while (x != NILPTR) {
 		y = x;
@@ -138,7 +130,7 @@ void rbinsert(NODEPTR *treeroot, int z) {
 			x = x->right;
 	}
 	printf("Ending Search\n");
-	Z->p = y;
+	Z->parent = y;
 	if (y == NILPTR)
 		*treeroot = Z;
 	else if (Z->key < y->key)
@@ -153,75 +145,7 @@ void rbinsert(NODEPTR *treeroot, int z) {
 	rbinsertfixup(treeroot,Z);
 }
 
-void rbtransplant(NODEPTR *treeroot, NODEPTR u, NODEPTR v) {
-	if (u->p == NILPTR)
-		*treeroot = u;
-	else if (u == u->p->left)
-		u->p->left = v;
-	else
-		u->p->right = v;
-	v->p = u->p;
-}
-
-void rbdeletefixup(NODEPTR *treeroot, NODEPTR x) {
-	while (x != *treeroot && x->color == BLACK) {
-		if (x->p!=NILPTR && x == x->p->left) {
-			NODEPTR w = x->p->right;
-			if (w!=NILPTR && w->color == RED) {
-				w->color = BLACK;
-				x->p->color = RED;
-				leftrotate(treeroot,x->p);
-				w = x->p->right;
-			}
-			if (w->left->color == BLACK && w->right->color == BLACK) {
-				w->color = RED;
-				x = x->p;
-			}
-			else {
-			 	if (w->right->color == BLACK) {
-					w->left->color = BLACK;
-					w->color = RED;
-					rightrotate(treeroot,w);
-					w = x->p->right;
-				}
-				w->color = x->p->color;
-				x->p->color = BLACK;
-				w->right->color = BLACK;
-				leftrotate(treeroot,x->p);
-				x = *treeroot;
-			}
-		}
-		else if(x->p!=NILPTR){
-			NODEPTR w = x->p->left;
-			if (w->color == RED) {
-				w->color = BLACK;
-				x->p->color = RED;
-				rightrotate(treeroot,x->p);
-				w = x->p->left;
-			}
-			if (w->left->color == BLACK && w->right->color == BLACK) {
-				w->color = RED;
-				x = x->p;
-			}
-			else {
-				if (w->left->color == BLACK) {
-					w->right->color = BLACK;
-					w->color = RED;
-					leftrotate(treeroot,w);
-					w = x->p->left;
-				}
-				w->color = x->p->color;
-				x->p->color = BLACK;
-				w->left->color = BLACK;
-				rightrotate(treeroot,x->p);
-				x = *treeroot;
-			}
-		}
-	}
-	x->color = BLACK;
-}
-
-void recolor(NODEPTR sibling, NODEPTR parentNode, NODEPTR *treeroot){
+void recolor(struct rb_node *sibling, struct rb_node *parentNode, struct rb_node **treeroot){
 	if(sibling->color == BLACK){
 		// check if atleast one of sibling's children is red.
 		if((sibling->left != NILPTR && sibling->left->color == RED) || (sibling->right != NILPTR && sibling->right->color == RED)){
@@ -278,12 +202,12 @@ void recolor(NODEPTR sibling, NODEPTR parentNode, NODEPTR *treeroot){
 				// recursive call.
 				parentNode->color = BLACK;
                 if(parentNode != *treeroot) {
-                    if (parentNode == parentNode->p->left) {
-                        sibling = parentNode->p->right;
+                    if (parentNode == parentNode->parent->left) {
+                        sibling = parentNode->parent->right;
                     } else {
-                        sibling = parentNode->p->left;
+                        sibling = parentNode->parent->left;
                     }
-                    parentNode = parentNode->p;
+                    parentNode = parentNode->parent;
                     recolor(sibling, parentNode, treeroot);
                 }
 			}
@@ -301,7 +225,7 @@ void recolor(NODEPTR sibling, NODEPTR parentNode, NODEPTR *treeroot){
 		}
 		// case 2: sibling is right child of parent.
 		else{
-			// color the sibling black and parent node red and rotate left.
+			// color the sibling black and parent rb_node red and rotate left.
 			sibling->color = BLACK;
 			parentNode->color = RED;
 			leftrotate(treeroot, parentNode);
@@ -311,10 +235,10 @@ void recolor(NODEPTR sibling, NODEPTR parentNode, NODEPTR *treeroot){
 	}
 }
 
-void deleteSafe(NODEPTR *treeroot, NODEPTR nodeptr){
+void deleteSafe(struct rb_node **treeroot, struct rb_node *nodeptr){
 	int nodeColor = nodeptr->color;
 	int nodeChildColor = BLACK;
-	NODEPTR childNode = NILPTR;
+	struct rb_node *childNode = NILPTR;
 	if(nodeptr->left == NILPTR && nodeptr->right == NILPTR){
 		nodeChildColor = BLACK;
 		childNode = NILPTR;
@@ -326,12 +250,12 @@ void deleteSafe(NODEPTR *treeroot, NODEPTR nodeptr){
 		childNode = nodeptr->right;
 	}
 
-	NODEPTR parentNode = nodeptr->p;
+	struct rb_node *parentNode = nodeptr->parent;
 
-	// case 1. node or child having color red. delete the node and mark it as black.
+	// case 1. rb_node or child having color red. delete the rb_node and mark it as black.
 	if(nodeColor == RED || nodeChildColor == RED){
 		// childNode = null case to be handled.
-		childNode->p = parentNode;
+		childNode->parent = parentNode;
 		childNode->color = BLACK;
 		if(parentNode != NILPTR && parentNode->left == nodeptr){
 			parentNode->left = childNode;
@@ -342,16 +266,16 @@ void deleteSafe(NODEPTR *treeroot, NODEPTR nodeptr){
             *treeroot = childNode;
         }
 	}else if(nodeptr != *treeroot){
-		// current node is double black and it is not root.
+		// current rb_node is double black and it is not root.
 		// cases 1) sibling s is black and atleast one of sibling's children are red.
-		NODEPTR sibling;
+		struct rb_node *sibling;
 		if(nodeptr == parentNode->left){
 			sibling = parentNode->right;
 		}else{
 			sibling = parentNode->left;
 		}
         if(childNode != NILPTR) {
-            childNode->p = parentNode;
+            childNode->parent = parentNode;
             childNode->color = BLACK;
         }
 		if(parentNode->left == nodeptr){
@@ -374,8 +298,8 @@ void deleteSafe(NODEPTR *treeroot, NODEPTR nodeptr){
 
 }
 
-void delete(NODEPTR *root, int z){
-	NODEPTR nodeptr = search(*root, z);
+void delete(struct rb_node **root, int z){
+	struct rb_node *nodeptr = search(*root, z);
 	// not found in the tree.
 	if(nodeptr == NULL)
 		return;
@@ -384,10 +308,10 @@ void delete(NODEPTR *root, int z){
 	}
 
 	// solve for the case with 2 children nodes.
-	NODEPTR maxLeftChild;
+	struct rb_node *maxLeftChild;
 	if(nodeptr->left != NILPTR && nodeptr->right != NILPTR){
 		maxLeftChild = nodeptr->left;
-		NODEPTR nextNode = nodeptr->left;
+		struct rb_node *nextNode = nodeptr->left;
 		while(nextNode!=NILPTR){
 			maxLeftChild = nextNode;
 			nextNode = nextNode->right;
@@ -397,54 +321,12 @@ void delete(NODEPTR *root, int z){
 		maxLeftChild->key = nodeptr->key;
 		nodeptr->key = tempKey;
 
-		// node to be deleted nodeptr;
+		// rb_node to be deleted nodeptr;
 		nodeptr = maxLeftChild;
 	}
 
 	deleteSafe(root, nodeptr);
 
-}
-
-void rbdelete(NODEPTR *treeroot, int z) {
-	//cout<<"qq";
-	NODEPTR Z = search(*treeroot, z);
-	//cout<<"qq";
-	if(Z==NULL)
-        return;
-	if (Z == NILPTR) {
-		//printf("Node to be deleted not found\n");
-		return;
-	}
-	NODEPTR y = Z;
-	int yoc = y->color;
-	NODEPTR x;
-	//cout<<"qq";
-	if (Z->left == NILPTR) {
-		x = Z->right;
-		rbtransplant(treeroot,Z,Z->right);
-	}
-	else if (Z->right == NILPTR) {
-		x = Z->left;
-		rbtransplant(treeroot,Z,Z->left);
-	}
-	else {
-		y = minimum(Z->right);
-		yoc = y->color;
-		x = y->right;
-		if (y->p == Z)
-			x->p = y;
-		else {
-			rbtransplant(treeroot,y,y->right);
-			y->right = Z->right;
-			y->right->p = y;
-		}
-		rbtransplant(treeroot,Z,y);
-		y->left = Z->left;
-		y->left->p = y;
-		y->color = Z->color;
-	}
-	if (yoc == BLACK)
-		rbdeletefixup(treeroot,x);
 }
 
 int main()
@@ -454,7 +336,7 @@ int main()
     int del[] = {4, 1, 3, 6, 5, 2};
     int i;
 
-    NODEPTR root = (NODEPTR)malloc(sizeof(NODEPTR));
+    struct rb_node *root;
     root = NILPTR;
     for(i=0; i<6; i++){
     	printf("Loop!\n");
