@@ -1,0 +1,1 @@
+/usr/bin/cc   -Wall -Werror -g   CMakeFiles/dbsg.dir/rb.c.o  -o dbsg -rdynamic 
