@@ -1,5 +1,5 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/dbsg.dir/rb.c.o"
+  "CMakeFiles/dbsg.dir/RedBlackTree.c.o"
   "dbsg.pdb"
   "dbsg"
 )

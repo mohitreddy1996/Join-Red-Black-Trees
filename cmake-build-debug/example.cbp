@@ -84,7 +84,7 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/mohit/rbtree/rb.c">
+		<Unit filename="/home/mohit/rbtree/RedBlackTree.c">
 			<Option target="dbsg"/>
 		</Unit>
 		<Unit filename="/home/mohit/rbtree/CMakeLists.txt">

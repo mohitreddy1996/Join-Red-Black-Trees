@@ -57,38 +57,38 @@ include CMakeFiles/dbsg.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/dbsg.dir/flags.make
 
-CMakeFiles/dbsg.dir/rb.c.o: CMakeFiles/dbsg.dir/flags.make
-CMakeFiles/dbsg.dir/rb.c.o: ../rb.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mohit/rbtree/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/dbsg.dir/rb.c.o"
-	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/dbsg.dir/rb.c.o   -c /home/mohit/rbtree/rb.c
+CMakeFiles/dbsg.dir/RedBlackTree.c.o: CMakeFiles/dbsg.dir/flags.make
+CMakeFiles/dbsg.dir/RedBlackTree.c.o: ../RedBlackTree.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mohit/rbtree/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/dbsg.dir/RedBlackTree.c.o"
+	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/dbsg.dir/RedBlackTree.c.o   -c /home/mohit/rbtree/RedBlackTree.c
 
-CMakeFiles/dbsg.dir/rb.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/dbsg.dir/rb.c.i"
-	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/mohit/rbtree/rb.c > CMakeFiles/dbsg.dir/rb.c.i
+CMakeFiles/dbsg.dir/RedBlackTree.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/dbsg.dir/RedBlackTree.c.i"
+	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/mohit/rbtree/RedBlackTree.c > CMakeFiles/dbsg.dir/RedBlackTree.c.i
 
-CMakeFiles/dbsg.dir/rb.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/dbsg.dir/rb.c.s"
-	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/mohit/rbtree/rb.c -o CMakeFiles/dbsg.dir/rb.c.s
+CMakeFiles/dbsg.dir/RedBlackTree.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/dbsg.dir/RedBlackTree.c.s"
+	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/mohit/rbtree/RedBlackTree.c -o CMakeFiles/dbsg.dir/RedBlackTree.c.s
 
-CMakeFiles/dbsg.dir/rb.c.o.requires:
+CMakeFiles/dbsg.dir/RedBlackTree.c.o.requires:
 
-.PHONY : CMakeFiles/dbsg.dir/rb.c.o.requires
+.PHONY : CMakeFiles/dbsg.dir/RedBlackTree.c.o.requires
 
-CMakeFiles/dbsg.dir/rb.c.o.provides: CMakeFiles/dbsg.dir/rb.c.o.requires
-	$(MAKE) -f CMakeFiles/dbsg.dir/build.make CMakeFiles/dbsg.dir/rb.c.o.provides.build
-.PHONY : CMakeFiles/dbsg.dir/rb.c.o.provides
+CMakeFiles/dbsg.dir/RedBlackTree.c.o.provides: CMakeFiles/dbsg.dir/RedBlackTree.c.o.requires
+	$(MAKE) -f CMakeFiles/dbsg.dir/build.make CMakeFiles/dbsg.dir/RedBlackTree.c.o.provides.build
+.PHONY : CMakeFiles/dbsg.dir/RedBlackTree.c.o.provides
 
-CMakeFiles/dbsg.dir/rb.c.o.provides.build: CMakeFiles/dbsg.dir/rb.c.o
+CMakeFiles/dbsg.dir/RedBlackTree.c.o.provides.build: CMakeFiles/dbsg.dir/RedBlackTree.c.o
 
 
 # Object files for target dbsg
 dbsg_OBJECTS = \
-"CMakeFiles/dbsg.dir/rb.c.o"
+"CMakeFiles/dbsg.dir/RedBlackTree.c.o"
 
 # External object files for target dbsg
 dbsg_EXTERNAL_OBJECTS =
 
-dbsg: CMakeFiles/dbsg.dir/rb.c.o
+dbsg: CMakeFiles/dbsg.dir/RedBlackTree.c.o
 dbsg: CMakeFiles/dbsg.dir/build.make
 dbsg: CMakeFiles/dbsg.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/mohit/rbtree/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking C executable dbsg"
@@ -99,7 +99,7 @@ CMakeFiles/dbsg.dir/build: dbsg
 
 .PHONY : CMakeFiles/dbsg.dir/build
 
-CMakeFiles/dbsg.dir/requires: CMakeFiles/dbsg.dir/rb.c.o.requires
+CMakeFiles/dbsg.dir/requires: CMakeFiles/dbsg.dir/RedBlackTree.c.o.requires
 
 .PHONY : CMakeFiles/dbsg.dir/requires
 

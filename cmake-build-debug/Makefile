@@ -123,32 +123,32 @@ dbsg/fast:
 	$(MAKE) -f CMakeFiles/dbsg.dir/build.make CMakeFiles/dbsg.dir/build
 .PHONY : dbsg/fast
 
-rb.o: rb.c.o
+RedBlackTree.o: RedBlackTree.c.o
 
-.PHONY : rb.o
+.PHONY : RedBlackTree.o
 
 # target to build an object file
-rb.c.o:
-	$(MAKE) -f CMakeFiles/dbsg.dir/build.make CMakeFiles/dbsg.dir/rb.c.o
-.PHONY : rb.c.o
+RedBlackTree.c.o:
+	$(MAKE) -f CMakeFiles/dbsg.dir/build.make CMakeFiles/dbsg.dir/RedBlackTree.c.o
+.PHONY : RedBlackTree.c.o
 
-rb.i: rb.c.i
+RedBlackTree.i: RedBlackTree.c.i
 
-.PHONY : rb.i
+.PHONY : RedBlackTree.i
 
 # target to preprocess a source file
-rb.c.i:
-	$(MAKE) -f CMakeFiles/dbsg.dir/build.make CMakeFiles/dbsg.dir/rb.c.i
-.PHONY : rb.c.i
+RedBlackTree.c.i:
+	$(MAKE) -f CMakeFiles/dbsg.dir/build.make CMakeFiles/dbsg.dir/RedBlackTree.c.i
+.PHONY : RedBlackTree.c.i
 
-rb.s: rb.c.s
+RedBlackTree.s: RedBlackTree.c.s
 
-.PHONY : rb.s
+.PHONY : RedBlackTree.s
 
 # target to generate assembly for a file
-rb.c.s:
-	$(MAKE) -f CMakeFiles/dbsg.dir/build.make CMakeFiles/dbsg.dir/rb.c.s
-.PHONY : rb.c.s
+RedBlackTree.c.s:
+	$(MAKE) -f CMakeFiles/dbsg.dir/build.make CMakeFiles/dbsg.dir/RedBlackTree.c.s
+.PHONY : RedBlackTree.c.s
 
 # Help Target
 help:
@@ -159,9 +159,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... dbsg"
-	@echo "... rb.o"
-	@echo "... rb.i"
-	@echo "... rb.s"
+	@echo "... RedBlackTree.o"
+	@echo "... RedBlackTree.i"
+	@echo "... RedBlackTree.s"
 .PHONY : help
 
 
