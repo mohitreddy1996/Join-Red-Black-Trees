@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/mohit/rbtree/rbtree.cc
+rbtree.h
+/home/mohit/rbtree/rbtree.h
+
+/home/mohit/rbtree/rbtree.h
+stdio.h
+-
+limits.h
+-
+stdlib.h
+-
+

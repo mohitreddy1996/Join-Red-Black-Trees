@@ -1,1 +1,1 @@
-/usr/bin/cc   -Wall -Werror -g   CMakeFiles/dbsg.dir/RedBlackTree.c.o  -o dbsg -rdynamic 
+/usr/bin/c++   -g   CMakeFiles/dbsg.dir/rbtree.cc.o  -o dbsg -rdynamic 

@@ -3,5 +3,5 @@ project(example)
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Werror")
 
-set(SOURCE_FILES RedBlackTree.c)
+set(SOURCE_FILES rbtree.cc)
 add_executable(dbsg ${SOURCE_FILES})

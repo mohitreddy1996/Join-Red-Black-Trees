@@ -301,7 +301,7 @@ void RedBlackTree::DeleteNode (struct RedBlackTreeNode *redBlackTreeNode)
           DeleteFixUp (x);
         }
     }
-
+  free(redBlackTreeNode);
 }
 
 struct RedBlackKey
