@@ -10,7 +10,7 @@ void RedBlackTree::InitialiseSentinel ()
 {
   nil = (struct RedBlackTreeNode *)malloc (sizeof(struct RedBlackTreeNode));
   nil->parent = nil->right = nil->left = nil;
-  nil->key = MIN_INT;
+  nil->key = NULL;
   nil->red = 0;
 }
 
@@ -18,7 +18,7 @@ void RedBlackTree::InitialiseRoot ()
 {
   root = (struct RedBlackTreeNode *)malloc (sizeof(struct RedBlackTreeNode));
   root->parent = root->right = root->left = nil;
-  root->key = INT_MAX;
+  root->key = NULL;
   root->red = 0;
 }
 
@@ -81,48 +81,12 @@ void RedBlackTree::RightRotate (struct RedBlackTreeNode *RBTreeNode)
   RBTreeNode->parent = x;
 }
 
-void RedBlackTree::TreeInsertHelper (struct RedBlackTreeNode *z)
-{
-  struct RedBlackTreeNode *x;
-  struct RedBlackTreeNode *y;
-
-  z->left = z->right = nil;
-  y = root;
-  x = root->left;
-
-  while (x != nil)
-    {
-      y = x;
-      if (x->key > z->key)
-        {
-          x = x->left;
-        }
-      else
-        {
-          x = x->right;
-        }
-    }
-
-  z->parent = y;
-  if ( (y == root) || (y->key > z->key))
-    {
-      y->left = z;
-    }
-  else
-    {
-      y->right = z;
-    }
-
-}
-
-
-void RedBlackTree::InsertNode (struct RedBlackTreeNode *newNode)
+void RedBlackTree::InsertColour (struct RedBlackTreeNode *newNode)
 {
   struct RedBlackTreeNode *y;
   struct RedBlackTreeNode *x;
 
   x = newNode;
-  TreeInsertHelper (x);
   x->red = 1;
   while (x->parent->red)
     {
@@ -175,15 +139,6 @@ void RedBlackTree::InsertNode (struct RedBlackTreeNode *newNode)
   return;
 }
 
-void RedBlackTree::Insert (int key)
-{
-  struct RedBlackTreeNode *newNode = (struct RedBlackTreeNode *)malloc (sizeof(struct RedBlackTreeNode));
-  newNode->key = key;
-  newNode->parent = newNode->right = newNode->left = nil;
-
-  return InsertNode (newNode);
-}
-
 struct RedBlackTreeNode* RedBlackTree::GetSuccessor (struct RedBlackTreeNode *redBlackTreeNode)
 {
   struct RedBlackTreeNode *y;
@@ -211,27 +166,6 @@ struct RedBlackTreeNode* RedBlackTree::GetSuccessor (struct RedBlackTreeNode *re
         }
       return y;
     }
-}
-
-struct RedBlackTreeNode* RedBlackTree::GetNode (int key)
-{
-  struct RedBlackTreeNode *y = root->left;
-  while (y != nil)
-    {
-      if (y->key == key)
-        {
-          return y;
-        }
-      else if (y->key > key)
-        {
-          y = y->left;
-        }
-      else
-        {
-          y = y->right;
-        }
-    }
-  return nil;
 }
 
 void RedBlackTree::DeleteFixUp (struct RedBlackTreeNode *x)
@@ -370,48 +304,84 @@ void RedBlackTree::DeleteNode (struct RedBlackTreeNode *redBlackTreeNode)
 
 }
 
-void RedBlackTree::Delete (int key)
+struct RedBlackKey
 {
-  struct RedBlackTreeNode *node;
-  node = GetNode (key);
-  DeleteNode (node);
-}
+  int key;
+  struct RedBlackTreeNode *RBnode;
+};
 
-void RedBlackTree::InOrder (struct RedBlackTreeNode *realRoot)
+RedBlackTree rb;
+
+void InOrder (struct RedBlackTreeNode *realRoot)
 {
-  if (realRoot != nil)
+  if (realRoot != rb.GetLeaf ())
     {
       InOrder (realRoot->left);
-      printf ("Key - %d :: Color - %d\n", realRoot->key, realRoot->red);
+      printf ("Key - %d :: Color - %d\n", ((struct RedBlackKey *)(realRoot->key))->key, realRoot->red);
       InOrder (realRoot->right);
     }
 }
-void RedBlackTree::PrintTree ()
+void PrintTree ()
 {
-  struct RedBlackTreeNode *rootLeft = root->left;
+  struct RedBlackTreeNode *rootLeft = (rb.GetRoot ())->left;
   InOrder (rootLeft);
 }
 
-
 int main ()
 {
-  RedBlackTree rb;
 
   int input[] = {6, 5, 4, 3, 2, 1};
   int delSeq[] = {2, 3, 1, 4, 5, 6};
+  struct RedBlackKey* rbkarr[6];
   int iter = 0;
   for (iter = 0; iter < 6; iter++)
     {
-      rb.Insert (input[iter]);
-    }
+      struct RedBlackKey* rbk = (struct RedBlackKey*)malloc (sizeof(struct RedBlackKey*));
+      rbk->key = input[iter];
+      struct RedBlackTreeNode *newNode = (struct RedBlackTreeNode *)malloc (sizeof(struct RedBlackTreeNode));
+      newNode->key = (void *) rbk;
+      newNode->parent = newNode->right = newNode->left = rb.GetLeaf ();
+      rbk->RBnode  = newNode;
+      rbkarr[iter] = rbk;
+      struct RedBlackTreeNode *z = newNode;
+      struct RedBlackTreeNode *x;
+      struct RedBlackTreeNode *y;
 
-  rb.PrintTree ();
-  printf ("\n---\n");
+      z->left = z->right = rb.GetLeaf ();
+      y = rb.GetRoot ();
+      x = rb.GetRoot ()->left;
+
+      while (x != rb.GetLeaf ())
+        {
+          y = x;
+          if (((struct RedBlackKey *)(x->key))->key > rbk->key)
+            {
+              x = x->left;
+            }
+          else
+            {
+              x = x->right;
+            }
+        }
+
+      z->parent = y;
+      if ( (y == rb.GetRoot ()) || (((struct RedBlackKey *)(y->key))->key > rbk->key))
+        {
+          y->left = z;
+        }
+      else
+        {
+          y->right = z;
+        }
+      rb.InsertColour (z);
+    }
+  PrintTree ();
   for (iter = 0; iter < 6; iter++)
     {
-      rb.Delete (delSeq[iter]);
-      rb.PrintTree ();
-      printf ("\n -------- \n");
+      printf ("----------------------------------\n");
+      PrintTree ();
+      rb.DeleteNode (rbkarr[delSeq[iter] - 1]->RBnode);
+      printf ("----------------------------------\n");
     }
   return 0;
 }
