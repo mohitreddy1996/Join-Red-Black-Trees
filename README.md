@@ -1,7 +1,3 @@
-# Red-Black-Tree-Implementation
+# Join-Red-Black-Trees
 
-Red Black Tree Implementation using C and C++.
-
-## Features Supported
-* Insert
-* Delete
+Join two red black trees given the condition that elements in one of the RBTrees are lesser than elements of other RBTree. Join operation to be done in O(logm + logn).
